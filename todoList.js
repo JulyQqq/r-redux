@@ -20,12 +20,18 @@ class todoList extends Component {
           style={{ width: "300px", marginRight: "10px" }}
           onChange={this.handleInputChange}
         />
-        <Button type="primary">提交</Button>
+        <Button type="primary" onClick={this.handleClick}>
+          提交
+        </Button>
         <div style={{ width: "300px", marginTop: "30px" }}>
           <List
             bordered
             dataSource={this.state.list}
-            renderItem={item => <List.Item>{item}</List.Item>}
+            renderItem={(item, index) => (
+              <List.Item onClick={this.handleItemDelete.bind(index)}>
+                {item}
+              </List.Item>
+            )}
           />
         </div>
       </div>
@@ -40,8 +46,21 @@ class todoList extends Component {
   }
 
   handleStoreChange() {
-    console.log("store change");
     this.setState(store.getState());
   }
+  handleClick = () => {
+    const action = {
+      type: "add_todo_item"
+    };
+    store.dispatch(action);
+  };
+  handleItemDelete = index => {
+    const action = {
+      type:'delete_item',
+      index
+    }
+    console.log(index);
+    store.dispatch(action)
+  };
 }
 export default todoList;
