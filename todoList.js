@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import "antd/dist/antd.css";
 import { Input, Button, List, Typography } from "antd";
 import store from "./store";
+import {
+  getInputChangeAction,
+  getAddItemAction,
+  getDeleteItemAction
+} from "./store/actionCreators";
 
 class todoList extends Component {
   constructor(props) {
     super(props);
     this.state = store.getState();
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleStoreChange = this.handleStoreChange.bind(this);
     store.subscribe(this.handleStoreChange);
   }
   render() {
@@ -19,6 +22,7 @@ class todoList extends Component {
           placeholder="please input"
           style={{ width: "300px", marginRight: "10px" }}
           onChange={this.handleInputChange}
+          onKeyPress={this.handleEnterKey}
         />
         <Button type="primary" onClick={this.handleClick}>
           提交
@@ -28,7 +32,7 @@ class todoList extends Component {
             bordered
             dataSource={this.state.list}
             renderItem={(item, index) => (
-              <List.Item onClick={this.handleItemDelete.bind(index)}>
+              <List.Item onClick={this.handleItemDelete.bind(this, index)}>
                 {item}
               </List.Item>
             )}
@@ -37,30 +41,27 @@ class todoList extends Component {
       </div>
     );
   }
-  handleInputChange(e) {
-    const action = {
-      type: "change_input_value",
-      value: e.target.value
-    };
+  handleInputChange = e => {
+    const action = getInputChangeAction(e.target.value);
     store.dispatch(action);
-  }
+  };
 
-  handleStoreChange() {
+  handleStoreChange = () => {
     this.setState(store.getState());
-  }
+  };
   handleClick = () => {
-    const action = {
-      type: "add_todo_item"
-    };
+    const action = getAddItemAction();
     store.dispatch(action);
   };
-  handleItemDelete = index => {
-    const action = {
-      type:'delete_item',
-      index
+  handleEnterKey = e => {
+    if (e.which === 13) {
+      this.handleClick();
     }
-    console.log(index);
-    store.dispatch(action)
   };
+  handleItemDelete(index) {
+    console.log(index);
+    const action = getDeleteItemAction(index);
+    store.dispatch(action);
+  }
 }
 export default todoList;
