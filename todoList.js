@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import TodoListUI from "./todoListUI";
 import "antd/dist/antd.css";
-import { Input, Button, List, Typography } from "antd";
+import axios from 'axios'
+
 import store from "./store";
 import {
   getInputChangeAction,
@@ -16,30 +18,20 @@ class todoList extends Component {
   }
   render() {
     return (
-      <div style={{ margin: "30px 0 0 30px" }}>
-        <Input
-          value={this.state.inputVal}
-          placeholder="please input"
-          style={{ width: "300px", marginRight: "10px" }}
-          onChange={this.handleInputChange}
-          onKeyPress={this.handleEnterKey}
-        />
-        <Button type="primary" onClick={this.handleClick}>
-          提交
-        </Button>
-        <div style={{ width: "300px", marginTop: "30px" }}>
-          <List
-            bordered
-            dataSource={this.state.list}
-            renderItem={(item, index) => (
-              <List.Item onClick={this.handleItemDelete.bind(this, index)}>
-                {item}
-              </List.Item>
-            )}
-          />
-        </div>
-      </div>
+      <TodoListUI
+        inputVal={this.state.inputVal}
+        list={this.state.list}
+        handleEnterKey={this.handleEnterKey}
+        handleInputChange={this.handleInputChange}
+        handleClick={this.handleClick}
+        handleItemDelete={this.handleItemDelete}
+      />
     );
+  }
+  componentDidMount(){
+    axios.get('/list.json').then(res=>{
+      
+    })
   }
   handleInputChange = e => {
     const action = getInputChangeAction(e.target.value);
