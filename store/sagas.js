@@ -25,7 +25,7 @@ function* getInitList() {
   yield put(action);
 }
 function* mySaga() {
-  yield takeEvery(GET_INIT_LIST, getInitList);
+  yield takeEvery(INIT_LIST, getInitList);
 }
 
 export default mySaga;

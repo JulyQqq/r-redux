@@ -20,7 +20,9 @@ export const getDeleteItemAction = index => ({
   type: DELETE_ITEM,
   index
 });
-
+export const getInitList = () => {
+  type:INIT_LIST
+}
 export const initListAction = list => ({
   type: GET_INIT_LIST,
   list
