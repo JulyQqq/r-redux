@@ -1,6 +1,6 @@
 import { CHANGE_INPUT_VALUE, ADD_TODO_ITEN, DELETE_ITEM,GET_INIT_LIST } from "./actionTypes";
 const defaultState = {
-  inputVal: "",
+  inputVal: "fff",
   list: []
 };
 
