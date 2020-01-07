@@ -24,7 +24,7 @@ const TodoListUI = props => {
                 props.handleItemDelete(index);
               }}
             >
-              {item}
+              {item.title}
             </List.Item>
           )}
         />
